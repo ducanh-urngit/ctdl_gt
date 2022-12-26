@@ -1,0 +1,747 @@
+#include "graphics.h"
+#include <dos.h>
+#include <stdio.h>
+#include <conio.h>
+
+char in[] = "linked list (insert)";
+char out[] = "linked list (delete)";
+char done[] = "linked list (finish)";
+char A[] = "1";
+char B[] = "2";
+char C[] = "3";
+char D[] = "4";
+char t[] = ".";
+void connect4null();
+
+void reset()
+{
+	system("cls");
+	outtextxy(400, 50, in);
+}
+void resetout()
+{
+	system("cls");
+	outtextxy(400, 50, out);
+}
+void resetdone()
+{
+	system("cls");
+	outtextxy(400, 50, done);
+}
+
+void before()
+{
+	int x = 18;
+
+	square(20, 490, 35);
+	square(20 + 60, 490, 35);
+	square(20 + 60 * 2, 490, 35);
+	square(20 + 60 * 3, 490, 35);
+
+	outtextxy(x, 240, A);
+	outtextxy(x + 45 * 1, 240, B);
+	outtextxy(x + 45 * 2, 240, C);
+	outtextxy(x + 44 * 3, 240, D);
+
+}
+void after()
+{
+	int d = 100, r = 50;
+
+	drawnode(700, 200);
+	drawnode(300, 200);
+	drawnode(900, 200);
+	drawnode(500, 200);
+
+	outtextxy(235 + 145 * 2, 100, A);
+	outtextxy(235, 100, B);
+	outtextxy(235 + 145 * 3, 100, C);
+	outtextxy(235 + 145, 100, D);
+
+	drawarrow(300 + d - 15, 200 + 25, 500, 200 + 25);
+	drawarrow(500 + d - 15, 200 + 25, 700, 200 + 25);
+	drawarrow(700 + d - 15, 200 + 25, 900, 200 + 25);
+
+	null(900 + d - 15, 200 + 25);
+}
+
+void keepexceptA()
+{
+	int d = 100;
+	outtextxy(235, 100, B);
+	drawnode(300, 200);
+
+	outtextxy(235 + 145 * 3, 100, C);
+	drawnode(900, 200);
+
+	outtextxy(235 + 145, 100, D);
+	drawnode(500, 200);
+
+	drawarrow(300 + d - 15, 200 + 25, 500, 200 + 25);
+	drawarrow(500 + d - 15, 200 + 25, 900, 200 + 25);
+
+	null(900 + d - 15, 200 + 25);
+}
+void keepexceptB()
+{
+	int x = 18, d = 100;
+	outtextxy(x, 240, A);
+	square(20, 490, 35);
+
+	outtextxy(235 + 145 * 3, 100, C);
+	drawnode(900, 200);
+
+	outtextxy(235 + 145, 100, D);
+	drawnode(500, 200);
+
+	drawarrow(500 + d - 15, 200 + 25, 900, 200 + 25);
+
+	null(900 + d - 15, 200 + 25);
+}
+void keepexceptC()
+{
+	int x = 18;
+	int d = 100;
+	outtextxy(x, 240, A);
+	outtextxy(x + 45 * 1, 240, B);
+
+	square(20, 490, 35);
+	square(20 + 60, 490, 35);
+
+	outtextxy(235 + 145, 100, D);
+	drawnode(500, 200);
+
+	null(500 + d - 15, 200 + 25);
+}
+void keepexceptD()
+{
+	int x = 18;
+
+	square(20, 490, 35);
+	square(20 + 60, 490, 35);
+	square(20 + 60 * 2, 490, 35);
+
+	outtextxy(x, 240, A);
+	outtextxy(x + 45 * 1, 240, B);
+	outtextxy(x + 45 * 2, 240, C);
+}
+void keepexceptDnull()
+{
+	int x = 18;
+
+	square(20, 490, 35);
+	square(20 + 60, 490, 35);
+	square(20 + 60 * 2, 490, 35);
+
+	outtextxy(x, 240, A);
+	outtextxy(x + 45 * 1, 240, B);
+	outtextxy(x + 45 * 2, 240, C);
+
+	outtextxy(235 + 145, 100, D);
+	drawnode(500, 200);
+}
+
+void keepexceptAout()
+{
+	int d = 100, r = 50;
+
+	drawnode(300, 200);
+	drawnode(900, 200);
+	drawnode(500, 200);
+
+	outtextxy(235, 100, B);
+	outtextxy(235 + 145 * 3, 100, C);
+	outtextxy(235 + 145, 100, D);
+
+	drawarrow(300 + d - 15, 200 + 25, 500, 200 + 25);
+	drawarrow(500 + d - 15, 200 + 25, 700, 200 + 25);
+	drawarrow(700 + d - 15, 200 + 25, 900, 200 + 25);
+
+	null(900 + d - 15, 200 + 25);
+}
+void keepexceptBout()
+{
+	int d = 100, r = 50;
+
+	outtextxy(18, 240, A);
+	square(20, 490, 35);
+
+	drawnode(900, 200);
+	drawnode(500, 200);
+
+	outtextxy(235 + 145 * 3, 100, C);
+	outtextxy(235 + 145, 100, D);
+
+	drawarrow(300 + d - 15, 200 + 25, 500, 200 + 25);
+	drawarrow(500 + d - 15, 200 + 25, 900, 200 + 25);
+
+	null(900 + d - 15, 200 + 25);
+}
+void keepexceptCout()
+{
+	int d = 100, r = 50;
+	int x = 18;
+	outtextxy(x, 240, A);
+	outtextxy(x + 45 * 1, 240, B);
+
+	square(20, 490, 35);
+	square(20 + 60, 490, 35);
+
+	outtextxy(235 + 145, 100, D);
+	drawnode(500, 200);
+
+	drawarrow(500 + d - 15, 200 + 25, 900, 200 + 25);
+
+	null(900 + d - 15, 200 + 25);
+}
+void keepexceptDout()
+{
+	int d = 100, r = 50;
+	int x = 18;
+	outtextxy(x, 240, A);
+	outtextxy(x + 45 * 1, 240, B);
+	outtextxy(x + 45 * 2, 240, C);
+
+	square(20, 490, 35);
+	square(20 + 60, 490, 35);
+	square(20 + 60 * 2, 490, 35);
+
+	drawnode(500, 200);
+	
+	null(500 + d - 15, 200 + 25);
+}
+
+void keepexcept4cn3()
+{
+	int x = 18;
+	outtextxy(x, 240, A);
+	outtextxy(x + 45 * 1, 240, B);
+
+	square(20, 490, 35);
+	square(20 + 60, 490, 35);
+	
+	outtextxy(235 + 145 * 3, 100, C);
+	drawnode(900, 200);
+
+	outtextxy(235 + 145, 100, D);
+	drawnode(500, 200);
+
+}
+void keepexcept2cn4()
+{
+	int x = 18, d = 100;
+	outtextxy(x, 240, A);
+	square(20, 490, 35);
+
+	outtextxy(235, 100, B);
+	drawnode(300, 200);
+	
+	outtextxy(235 + 145 * 3, 100, C);
+	drawnode(900, 200);
+
+	outtextxy(235 + 145, 100, D);
+	drawnode(500, 200);
+
+	drawarrow(500 + d - 15, 200 + 25, 900, 200 + 25);
+
+	null(900 + d - 15, 200 + 25);
+}
+void keepexcept4cn3discn1()
+{
+	int d = 100;
+	drawnode(700, 200);
+	drawnode(300, 200);
+	drawnode(900, 200);
+	drawnode(500, 200);
+
+	outtextxy(235 + 145 * 2, 100, A);
+	outtextxy(235, 100, B);
+	outtextxy(235 + 145 * 3, 100, C);
+	outtextxy(235 + 145, 100, D);
+
+	drawarrow(300 + d - 15, 200 + 25, 500, 200 + 25);
+
+	null(900 + d - 15, 200 + 25);
+}
+void keepexcept3cn1()
+{
+	int d = 100;
+	drawnode(700, 200);
+	drawnode(300, 200);
+	drawnode(900, 200);
+	drawnode(500, 200);
+
+	outtextxy(235 + 145 * 2, 100, A);
+	outtextxy(235, 100, B);
+	outtextxy(235 + 145 * 3, 100, C);
+	outtextxy(235 + 145, 100, D);
+
+	drawarrow(300 + d - 15, 200 + 25, 500, 200 + 25);
+	drawarrow(500 + d - 15, 200 + 25, 700, 200 + 25);
+
+	null(900 + d - 15, 200 + 25);
+}
+
+void keepexcept4cn3out()
+{
+	int d = 100, r = 50;
+
+	outtextxy(18, 240, A);
+	square(20, 490, 35);
+
+	drawnode(300, 200);
+	drawnode(900, 200);
+	drawnode(500, 200);
+
+	outtextxy(235, 100, B);
+	outtextxy(235 + 145 * 3, 100, C);
+	outtextxy(235 + 145, 100, D);
+
+	drawarrow(300 + d - 15, 200 + 25, 500, 200 + 25);
+
+	null(900 + d - 15, 200 + 25);
+}
+
+void moveAup()
+{
+	int a;
+	float i = 0;
+	while(true)
+	{
+		keepexceptA();
+		a = 240 - i;
+		if (a >= 100)
+			outtextxy(253 + 145 * 2, a, A);
+		else
+			break;
+		i += 0.06;
+	}
+}
+void moveBup()
+{
+	int a;
+	float i = 0;
+	while(true)
+	{
+		keepexceptB();
+		a = 240 - i;
+		if (a >= 100)
+			outtextxy(253, a, B);
+		else
+			break;
+		i += 0.06;
+	}
+}
+void moveCup()
+{
+	int a;
+	float i = 0;
+	while(true)
+	{
+		keepexceptC();
+		a = 240 - i;
+		if (a >= 100)
+			outtextxy(253 + 145 * 3, a, C);
+		else
+			break;
+		i += 0.05;
+	}
+}
+void moveDup()
+{
+	int a;
+	int d = 100;
+	float i = 0;
+	while(true)
+	{
+		keepexceptD();
+		a = 240 - i;
+		if (a >= 100)
+			outtextxy(253+145, a, D);
+		else
+			break;
+		i += 0.05;
+	}
+	reset();
+	connect4null();
+}
+
+void moveAdown()
+{
+	int a;
+
+	for (float i = 0; i <= 1000; i += 0.05)
+	{
+		keepexceptAout();
+		a = 100 + i;
+		if (a <= 240)
+			outtextxy(235 + 145 * 2, a, A);
+		else
+			break;
+	}
+}
+void moveBdown()
+{
+	int a;
+
+	for (float i = 0; i <= 1000; i += 0.05)
+	{
+		keepexceptBout();
+		a = 100 + i;
+		if (a <= 240)
+			outtextxy(235, a, B);
+		else
+			break;
+	}
+}
+void moveCdown()
+{
+	int a;
+
+	for (float i = 0; i <= 1000; i += 0.05)
+	{
+		keepexceptCout();
+		a = 100 + i;
+		if (a <= 240)
+			outtextxy(235 + 145 * 3, a, C);
+		else
+			break;
+	}
+}
+void moveDdown()
+{
+	int a;
+
+	for (float i = 0; i <= 1000; i += 0.05)
+	{
+		keepexceptDout();
+		a = 100 + i;
+		if (a <= 240)
+			outtextxy(235 + 145, a, D);
+		else
+			break;
+	}
+}
+
+void connect43()
+{
+	reset();
+	int d = 100, r = 50;
+	float a = 500 + d - 15;
+	float x = 900 + d - 15, y = 200 + 25;
+	float b = x;
+	float c = y - 20;
+	float e = y - 15;
+	float f = y - 10;
+	float i = 0;
+	while(true)
+	{
+		keepexcept4cn3();
+		a += i; b += i; c += i; e += i; f += i;
+		if (a <= 900) line(500 + d - 15, 200 + 25, a, 200 + 25);
+		else drawarrow(500 + d - 15, 200 + 25, 900, 200 + 25);
+
+		if (b <= x + 100) line(x, y, b, y);
+		else line(x, y, x + 100, y);
+
+		if (c <= y + 20) line(x + 110, y - 20, x + 110, c);
+		else line(x + 110, y - 20, x + 110, y + 20);
+
+		if (e <= y + 15) line(x + 120, y - 15, x + 120, e);
+		else line(x + 120, y - 15, x + 120, y + 15);
+
+		if (f <= y + 10) line(x + 130, y - 10, x + 130, f);
+		else line(x + 130, y - 10, x + 130, y + 10);
+
+		if (a > 900 && b > x + 100 && c > y + 20 && e > y + 15 && f > y + 10)
+			break;
+		i += 0.00003;
+	}
+}
+void connect24()
+{
+	reset();
+	int d = 100, r = 50;
+	float a = 300 + d - 15;
+	float i = 0;
+	while(true)
+	{
+		keepexcept2cn4();
+		a += i;
+		if (a <= 500)
+			line(300 + d - 15, 200 + 25, a, 200 + 25);
+		else
+		{
+			drawarrow(300 + d - 15, 200 + 25, 500, 200 + 25);
+			break;
+		}
+		i += 0.00005;
+	}
+}
+void connect413()
+{
+	reset();
+	int d = 100, r = 50;
+	float a = 500 + d - 15;
+	float i = 0;
+	while(true)
+	{
+		keepexcept4cn3discn1();
+		a += i;
+		if (a <= 700)
+			line(500 + d - 15, 200 + 25, a, 200 + 25);
+		else
+		{
+			drawarrow(500 + d - 15, 200 + 25, 700, 200 + 25);
+			break;
+		}
+		i += 0.00005;
+	}
+
+	a = 700 + d - 15;
+	i = 0;
+	while(true)
+	{
+		keepexcept3cn1();
+		a += i;
+		if (a <= 900)
+			line(700 + d - 15, 200 + 25, a, 200 + 25);
+		else
+		{
+			drawarrow(700 + d - 15, 200 + 25, 900, 200 + 25);
+			break;
+		}
+		i += 0.00005;
+	}
+}
+void connect4null()
+{
+	int d = 100;
+	float x = 500 + d - 15, y = 200 + 25;
+	float b = x;
+	float c = y - 20;
+	float e = y - 15;
+	float f = y - 10;
+	float i = 0;
+	while (true)
+	{
+		keepexceptDnull();
+		b += i; c += i; e += i; f += i;
+
+		if (b <= x + 100) line(x, y, b, y);
+		else line(x, y, x + 100, y);
+
+		if (c <= y + 20) line(x + 110, y - 20, x + 110, c);
+		else line(x + 110, y - 20, x + 110, y + 20);
+
+		if (e <= y + 15) line(x + 120, y - 15, x + 120, e);
+		else line(x + 120, y - 15, x + 120, y + 15);
+
+		if (f <= y + 10) line(x + 130, y - 10, x + 130, f);
+		else line(x + 130, y - 10, x + 130, y + 10);
+
+		if (b > x + 100 && c > y + 20 && e > y + 15 && f > y + 10)
+			break;
+		i += 0.00001;
+	}
+}
+
+void reconnect43()
+{
+	reset();
+	int d = 100, r = 50;
+	float a = 500 + d - 15;
+	float i = 0;
+	while(true)
+	{
+		keepexcept4cn3out();
+		a += i;
+		if (a <= 900)
+			line(500 + d - 15, 200 + 25, a, 200 + 25);
+		else
+		{
+			drawarrow(500 + d - 15, 200 + 25, 900, 200 + 25);
+			break;
+		}
+		i += 0.00005;
+	}
+}
+
+void move()
+{
+	reset();
+	int x = 18, a;
+	float i = 0;
+	while(true)
+	{
+		keepexceptD();
+
+		a = x + 44 * 3 + i;
+		if (a <= 235 + 145)
+			outtextxy(a, 240, D);
+		else
+		{
+			moveDup();
+			break;
+		}
+		i += 0.03;
+	}
+
+	reset();
+	i = 0;
+	while(true)
+	{
+		keepexceptC();
+
+		a = x + 45 * 2 + i;
+		if (a <= 235 + 145 * 3)
+			outtextxy(a, 240, C);
+		else
+		{
+			moveCup();
+			break;
+		}
+		i += 0.05;
+	}
+	connect43();
+
+	reset();
+	i = 0;
+	while(true)
+	{
+		keepexceptB();
+
+		a = x + 45 + i;
+		if (a <= 235)
+			outtextxy(a, 240, B);
+		else
+		{
+			moveBup();
+			break;
+		}
+		i += 0.05;
+	}
+	connect24();
+
+	reset();
+	i = 0;
+	while(true)
+	{
+		keepexceptA();
+
+		a = x + i;
+		if (a <= 235 + 145 * 2)
+			outtextxy(a, 240, A);
+		else
+		{
+			moveAup();
+			break;
+		}
+		i += 0.09;
+	}
+	connect413();
+}
+void moveback()
+{
+	int x = 235, a;
+	resetout();
+	moveAdown();
+	float i = 0;
+	while(true)
+	{
+		keepexceptAout();
+
+		a = x + 145 * 2 - i;
+		if (a >= 18)
+			outtextxy(a, 240, A);
+		else
+			break;
+		i += 0.09;
+	}
+	reconnect43();
+
+	resetout();
+	moveBdown();
+	i = 0;
+	while(true)
+	{
+		keepexceptBout();
+
+		a = x - i;
+		if (a >= 18 + 45)
+			outtextxy(a, 240, B);
+		else
+			break;
+		i += 0.05;
+	}
+
+	resetout();
+	moveCdown();
+	i = 0;
+	while(true)
+	{
+		keepexceptCout();
+
+		a = x + 145 * 3 - i;
+		if (a >= 18 +45 *2)
+			outtextxy(a, 240, C);
+		else
+			break;
+		i += 0.05;
+	}
+	resetout();
+	connect4null();
+
+	moveDdown();
+	i = 0;
+	while(true)
+	{
+		keepexceptDout();
+
+		a = x + 145 - i;
+		if (a >= 18 + 44 * 3)
+			outtextxy(a, 240, D);
+		else
+			break;
+		i += 0.05;
+	}
+}
+
+void LinkedListSimulation()
+{
+	int i = 0;
+	reset();
+	while (i != 10000)
+	{
+		before();
+		i++;
+	}
+	move();
+
+	resetout();
+	i = 0;
+	while (i != 5000)
+	{
+		after();
+		i++;
+	}
+	moveback();
+
+	resetdone();
+	i = 0;
+	while (i != 10000)
+	{
+		before();
+		i++;
+	}
+}
+
+int main()
+{
+	char ini[] = "C:\\TURBOC3\\BGI";
+	initgraph();
+
+	LinkedListSimulation();
+	
+	return 0;
+}
