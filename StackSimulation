@@ -1,0 +1,414 @@
+#include "graphics.h"
+#include <dos.h>
+#include <stdio.h>
+#include <conio.h>
+
+char in[] = "stack (insert)";
+char out[] = "stack (delete)";
+char done[] = "stack (finish)";
+char A[] = "1";
+char B[] = "2";
+char C[] = "3";
+char D[] = "4";
+char t[] = ".";
+
+void reset()
+{
+    system("cls");
+    outtextxy(400, 50, in);
+}
+void resetout()
+{
+    system("cls");
+    outtextxy(400, 50, out);
+}
+void resetdone()
+{
+    system("cls");
+    outtextxy(400, 50, done);
+}
+
+void before()
+{
+    int x = 18;
+    rectangle(600, 375, 700, 575);
+
+    square(20, 275, 35);
+    square(20 + 60, 275, 35);
+    square(20 + 60 * 2, 275, 35);
+    square(20 + 60 * 3, 275, 35);
+
+    outtextxy(x, 140, A);
+    outtextxy(x + 45 * 1, 140, B);
+    outtextxy(x + 45 * 2, 140, C);
+    outtextxy(x + 44 * 3, 140, D);
+
+}
+void after()
+{
+    int x = 18;
+    rectangle(600, 375, 700, 575);
+
+    /*square(20, 275, 35);
+    square(20 + 60, 275, 35);
+    square(20 + 60 * 2, 275, 35);
+    square(20 + 60 * 3, 275, 35);
+
+    outtextxy(458, 140, t);
+
+    outtextxy(x, 140, A);
+    outtextxy(x + 45 * 1, 140, B);
+    outtextxy(x + 45 * 2, 140, C);
+    outtextxy(x + 44 * 3, 140, D);*/
+
+    outtextxy(458, 270 - 18 * 3.5, A);
+    outtextxy(458, 270 - 18 * 2, B);
+    outtextxy(458, 270 - 18 * 1.5, C);
+    outtextxy(458, 270, D);
+
+    square(630, 541 - 40 * 3, 35);
+    square(630, 541 - 40 * 2, 35);
+    square(630, 541 - 40, 35);
+    square(630, 541, 35);
+}
+
+
+void keepexceptA()
+{
+    outtextxy(458, 270 - 18 * 2, B);
+    square(630, 541 - 40 * 2, 35);
+
+    outtextxy(458, 270 - 18 * 1.5, C);
+    square(630, 541 - 40, 35);
+
+    outtextxy(458, 270, D);
+    square(630, 541, 35);
+}
+void keepexceptB()
+{
+    int x = 18;
+    outtextxy(x, 140, A);
+    square(20, 275, 35);
+
+    outtextxy(458, 270 - 18 * 1.5, C);
+    square(630, 541 - 40, 35);
+
+    outtextxy(458, 270, D);
+    square(630, 541, 35);
+}
+void keepexceptC()
+{
+    int x = 18;
+    outtextxy(x, 140, A);
+    outtextxy(x + 45 * 1, 140, B);
+
+    square(20, 275, 35);
+    square(20 + 60, 275, 35);
+
+    outtextxy(458, 270, D);
+    square(630, 541, 35);
+}
+void keepexceptD()
+{
+    int x = 18;
+    outtextxy(x, 140, A);
+    outtextxy(x + 45 * 1, 140, B);
+    outtextxy(x + 45 * 2, 140, C);
+
+    square(20, 275, 35);
+    square(20 + 60, 275, 35);
+    square(20 + 60 * 2, 275, 35);
+}
+
+void moveAdown()
+{
+    int a;
+    keepexceptA();
+
+    for (float i = 0; i <= 1000; i += 0.008)
+    {
+        a = 140 + i;
+        if (a <= 270 - 18 * 3.5)
+            outtextxy(458, a, A);
+        else
+            break;
+    }
+}
+void moveBdown()
+{
+    int a;
+    keepexceptB();
+
+    for (float i = 0; i <= 1000; i += 0.008)
+    {
+        rectangle(600, 375, 700, 575);
+        a = 140 + i;
+        if (a <= 270 - 18*2)
+            outtextxy(458, a, B);
+        else
+            break;
+    }
+}
+void moveCdown()
+{
+    int a;
+    keepexceptC();
+    
+    for (float i = 0; i <= 1000; i += 0.008)
+    {
+        rectangle(600, 375, 700, 575);
+        a = 140 + i;
+        if (a <= 270-18*1.5)
+            outtextxy(458, a, C);
+        else
+            break;
+    }
+}
+void moveDdown()
+{
+    int a;
+    keepexceptD();
+
+    for (float i = 0; i <= 1000; i+=0.008)
+    {
+        a = 140 + i;
+        if (a <= 270)
+            outtextxy(458, a, D);
+        else
+            break;
+    }
+}
+
+void moveAup()
+{
+    int a;
+    keepexceptA();
+
+    for (float i = 0; i <= 1000; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        a = 270 - 18 * 3.5 - i;
+        if (a >= 140)
+            outtextxy(458, a, A);
+        else
+            break;
+    }
+}
+void moveBup()
+{
+    int a;
+    keepexceptB();
+
+    for (float i = 0; i <= 1000; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        a = 270 - 18 * 2 - i;
+        if (a >= 140)
+            outtextxy(458, a, B);
+        else
+            break;
+    }
+}
+void moveCup()
+{
+    int a;
+    keepexceptC();
+
+    for (float i = 0; i <= 1000; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        a = 270 - 18 * 1.5 - i;
+        if (a >= 140)
+            outtextxy(458, a, C);
+        else
+            break;
+    }
+}
+void moveDup()
+{
+    int a;
+    keepexceptD();
+
+    for (float i = 0; i <= 1000; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        a = 270 - i;
+        if (a >= 140)
+            outtextxy(458, a, D);
+        else
+            break;
+    }
+}
+
+void move()
+{
+    reset();
+    int x = 18, a;
+
+    for (float i = 0; i <= 400; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        keepexceptD();
+
+        a = x + 44 * 3 + i;
+        if (a <= 458)
+            outtextxy(a, 140, D);
+        else
+        {
+            moveDdown();
+            break;
+        }
+    }
+    reset();
+    for (float i = 0; i <= 400; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        keepexceptC();
+        
+        a = x + 45 * 2 + i;
+        if (a <= 458)
+            outtextxy(a, 140, C);
+        else
+        {
+            moveCdown();
+            break;
+        }
+    }
+    reset();
+    for (float i = 0; i <= 400; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        keepexceptB();
+
+        a = x + 45 + i;
+        if (a <= 458)
+            outtextxy(a, 140, B);
+        else
+        {
+            moveBdown();
+            break;
+        }
+    }
+    reset();
+    for (float i = 0; i <= 500; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        keepexceptA();
+
+        a = x + i;
+        if (a <= 458)
+            outtextxy(a, 140, A);
+        else
+        {
+            moveAdown();
+            break;
+        }
+    }
+}
+void moveback()
+{
+    resetout();
+    int x = 458, a;
+
+    moveAup();
+    for (float i = 0; i <= 500; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        keepexceptA();
+        
+        a = x - i;
+        if (a >= 18)
+            outtextxy(a, 140, A);
+        else
+        {
+            break;
+        }
+    }
+
+    resetout();
+    moveBup();
+    for (float i = 0; i <= 500; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        keepexceptB();
+
+        a = x - i;
+        if (a >= 18+45)
+            outtextxy(a, 140, B);
+        else
+        {
+            break;
+        }
+    }
+
+    resetout();
+    moveCup();
+    for (float i = 0; i <= 500; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        keepexceptC();
+
+        a = x - i;
+        if (a >= 18 +45*2)
+            outtextxy(a, 140, C);
+        else
+        {
+            break;
+        }
+    }
+
+    resetout();
+    moveDup();
+    for (float i = 0; i <= 500; i += 0.05)
+    {
+        rectangle(600, 375, 700, 575);
+        keepexceptD();
+
+        a = x - i;
+        if (a >= 18 + 44*3)
+            outtextxy(a, 140, D);
+        else
+        {
+            break;
+        }
+    }
+}
+
+void StackSimulation()
+{
+    int i = 0;
+    reset();
+    while (i != 10000)
+    {
+        before();
+        i++;
+    }
+    move();
+
+    resetout();
+    i = 0;
+    while (i != 10000)
+    {
+        after();
+        i++;
+    }
+    moveback();
+
+    resetdone();
+    i = 0;
+    while (i != 10000)
+    {
+        before();
+        i++;
+    }
+}
+
+int main()
+{
+    char ini[] = "C:\\TURBOC3\\BGI";
+    initgraph();
+
+    StackSimulation();
+
+    return 0;
+}
